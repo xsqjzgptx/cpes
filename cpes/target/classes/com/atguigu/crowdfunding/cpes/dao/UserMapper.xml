@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atguigu.crowdfunding.cpes.dao.UserMapper">
+	<resultMap id="BaseResultMap" type="com.atguigu.crowdfunding.cpes.bean.User">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="loginacct" property="loginacct" jdbcType="VARCHAR" />
+		<result column="userpswd" property="userpswd" jdbcType="CHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		id, name, loginacct, userpswd, email
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.atguigu.crowdfunding.cpes.bean.UserExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from t_user
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from t_user
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from t_user
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.atguigu.crowdfunding.cpes.bean.UserExample">
+		delete from t_user
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.atguigu.crowdfunding.cpes.bean.User">
+		insert into t_user (name,
+		loginacct, email)
+		values (#{name,jdbcType=VARCHAR},
+		#{loginacct,jdbcType=VARCHAR},
+		#{email,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.atguigu.crowdfunding.cpes.bean.User">
+		insert into t_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="loginacct != null">
+				loginacct,
+			</if>
+			<if test="userpswd != null">
+				userpswd,
+			</if>
+			<if test="email != null">
+				email,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="loginacct != null">
+				#{loginacct,jdbcType=VARCHAR},
+			</if>
+			<if test="userpswd != null">
+				#{userpswd,jdbcType=CHAR},
+			</if>
+			<if test="email != null">
+				#{email,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.atguigu.crowdfunding.cpes.bean.UserExample"
+		resultType="java.lang.Integer">
+		select count(*) from t_user
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update t_user
+		<set>
+			<if test="record.id != null">
+				id = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.name != null">
+				name = #{record.name,jdbcType=VARCHAR},
+			</if>
+			<if test="record.loginacct != null">
+				loginacct = #{record.loginacct,jdbcType=VARCHAR},
+			</if>
+			<if test="record.userpswd != null">
+				userpswd = #{record.userpswd,jdbcType=CHAR},
+			</if>
+			<if test="record.email != null">
+				email = #{record.email,jdbcType=VARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update t_user
+		set id = #{record.id,jdbcType=INTEGER},
+		name =
+		#{record.name,jdbcType=VARCHAR},
+		loginacct =
+		#{record.loginacct,jdbcType=VARCHAR},
+		userpswd =
+		#{record.userpswd,jdbcType=CHAR},
+		email =
+		#{record.email,jdbcType=VARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.atguigu.crowdfunding.cpes.bean.User">
+		update t_user
+		<set>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="loginacct != null">
+				loginacct = #{loginacct,jdbcType=VARCHAR},
+			</if>
+			<if test="userpswd != null">
+				userpswd = #{userpswd,jdbcType=CHAR},
+			</if>
+			<if test="email != null">
+				email = #{email,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.atguigu.crowdfunding.cpes.bean.User">
+		update t_user
+		set
+		name = #{name,jdbcType=VARCHAR},
+		loginacct =
+		#{loginacct,jdbcType=VARCHAR},
+		userpswd = #{userpswd,jdbcType=CHAR},
+		email = #{email,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 登陆 -->
+	<select id="getUserByName" resultMap="BaseResultMap">
+		select
+		id,
+		name,
+		loginacct,
+		userpswd,
+		email
+		from t_user
+		where loginacct = #{loginacct}
+	</select>
+
+	<select id="getAll" resultType="user">
+		select * from t_user limit
+		#{start},#{pageSize}
+	</select>
+	<select id="selectTotalUserCounts" resultType="int">
+		select count(*)
+		from t_user
+	</select>
+
+	<update id="update">
+		update t_user
+		set name = #{name}, loginacct =
+		#{loginacct}, email = #{email}
+		where id = #{id}
+	</update>
+	<delete id="delete">
+		delete from t_user
+		where id in
+		<foreach collection="users" item="user" open="(" close=")"
+			separator=",">#{user.id}</foreach>
+	</delete>
+	<select id="queryPermissions" resultType="permission">
+		SELECT * FROM t_permission WHERE id IN (
+		SELECT permissionid
+		FROM t_role_permission
+		WHERE roleid IN(
+		SELECT roleid
+		FROM t_user_role
+		WHERE userid = #{id}
+		)
+		)
+	</select>
+   <!-- 分配角色四种情况:    批量的话要先删除旧的再增加新的 -->
+	   <insert id="asignRole">
+	     insert into t_user_role
+	     (userid,roleid)
+	     values 
+	     (#{userid},#{roleid})
+	   </insert>
+   
+       <delete id="unAssignRole">
+          delete from t_user_role
+          where userid = #{userid} and roleid = #{roleid}
+       </delete>
+ 		
+ 		<insert id="asignAll">
+ 		  <foreach collection="roleIdList" item="roleId" separator=";">
+ 		    INSERT INTO t_user_role (userid ,roleid) VALUES (#{userid}, #{roleId})
+ 		  </foreach>
+ 		</insert>
+ 		   
+ 		   <!-- 用户只能删除自己的权限 -->
+ 		<delete id="unAssignAll">
+ 		  delete from t_user_role
+          where userid = #{userid}
+       </delete>
+
+</mapper>
